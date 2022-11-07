@@ -1,0 +1,47 @@
+### comamnd: docker-compose up-d
+
+version: "3.9"
+services:
+  # Install Source MySQL DB and setup the Customer database
+  mysql-order:
+    container_name: order
+    image: mysql
+    ports:
+      - 3307:3306
+    command: --init-file /data/application/init.sql
+    volumes:
+      - ./sql/order-init.sql:/data/application/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: order
+
+  # Install Target MySQL DB and setup the Customer database
+  mysql-payment:
+    container_name: payment
+    image: mysql
+    ports:
+      - 3308:3306
+    command: --init-file /data/application/init.sql
+    volumes:
+      - ./sql/payment-init.sql:/data/application/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: payment
+
+  mysql-delivery:
+    container_name: delivery
+    image: mysql
+    ports:
+      - 3309:3306
+    command: --init-file /data/application/init.sql
+    volumes:
+      - ./sql/delivery-init.sql:/data/application/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: delivery
